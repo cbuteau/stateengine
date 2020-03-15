@@ -1,0 +1,32 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/gitsrc
+    docker:
+      - image: circleci/node:jessie-browsers
+    environment:
+      JVM_OPTS: -Xmx3200m
+      NODE_ENV: false
+      COVERALLS_REPO_TOKEN: WpLqvM2UDxDVrEXXZbyun3dgL5W8MlEEL
+    steps:
+      - checkout
+      - run:
+          name: setup-for-karma
+          command: npm set prefix=/home/circleci/npm && echo 'export PATH=$HOME/circleci/npm/bin:$PATH' >> /home/circleci/.bashrc
+      - run:
+          name: karma-cli
+          command: npm install -g karma-cli
+      - restore_cache:
+          key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+      - run:
+          name: npm install
+          command: npm install
+      - run:
+          name: run test
+          command: npm run test.ci
+      - store_artifacts:
+          path: coverage
+      - save_cache:
+          key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - .node_modules

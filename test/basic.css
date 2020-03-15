@@ -1,0 +1,14 @@
+base {
+  height: 75px;
+  width: 200px;
+};
+
+login {
+ background-color: red;
+};
+app {
+ background-color: green;
+};
+options {
+ background-color: blue;
+};

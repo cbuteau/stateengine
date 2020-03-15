@@ -1,0 +1,40 @@
+{
+  "name": "stateengine",
+  "version": "1.0.0",
+  "description": "A state engine for managing key pub sub events.",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start",
+    "test.ci": "karma start --single-run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cbuteau/stateengine.git"
+  },
+  "keywords": [
+    "state",
+    "pubsub"
+  ],
+  "author": "cbuteau",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cbuteau/stateengine/issues"
+  },
+  "homepage": "https://github.com/cbuteau/stateengine#readme",
+  "dependencies": {
+    "istanbul": "^0.4.5",
+    "jasmine": "^3.5.0",
+    "jasmine-core": "^3.5.0",
+    "karma": "^4.4.1",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-cli": "^2.0.0",
+    "karma-coverage": "^2.0.1",
+    "karma-coveralls": "^2.1.0",
+    "karma-requirejs": "^1.1.0",
+    "pubsub-js": "^1.8.0",
+    "requirejs": "^2.3.6"
+  },
+  "devDependencies": {
+    "karma-jasmine": "^3.1.1"
+  }
+}
