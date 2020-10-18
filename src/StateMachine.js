@@ -2,10 +2,38 @@ define('src/StateMachine', [
   'https://unpkg.com/pubsub-js@1.8.0/src/pubsub.js'
 ], function(PubSub) {
 
+  function createStepper(array, context, work, done) {
+      var index = -1;
+      return function() {
+          index++;
+          if (index <= array.length - 1) {
+              var current = array[index];
+              work(current, context);
+          } else {
+              done();
+          }
+      };
+  }
+
   function State(name, options) {
     this.name = name;
     this.options = options;
   }
+
+  State.prototype = {
+    execute: function() {
+      var nextAction = createStepper(this.actions, this, function(thisPtr, actionFunc) {
+        var result = actionFunc();
+        if (result instanceof Promise) {
+          result.then(nextAction).catch(nextAction);
+        } else {
+          nextAction();
+        }
+      }, function() {
+        console.log('actions done');
+      })
+    }
+  };
 
   function Transition(toState, fromState, event, callbackInfo, parentStateMachine) {
     this.toState = toState;
@@ -23,7 +51,7 @@ define('src/StateMachine', [
     execute: function() {
       this._callback();
     }
-  }
+  };
 
   function StateMachine(options) {
     this.isSetup = false;
@@ -87,7 +115,7 @@ define('src/StateMachine', [
       this._transitionsToEval.push(transition);
       this._start();
     }
-  }
+  };
 
 
   return StateMachine;
